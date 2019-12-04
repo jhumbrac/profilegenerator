@@ -3,8 +3,8 @@ const axios = require('axios');
 const fs = require('fs');
 const pdf = require('html-pdf');
 
-var html = fs.readFileSync('./index.html', 'utf8');
-var options = { format: 'Letter' };
+// var html = fs.readFileSync('./index.html', 'utf8');
+// var options = { format: 'Letter' };
 
 const colors = {
   green: {
@@ -78,12 +78,13 @@ inquirer
     followers = response.data.followers;
     githubStars = response.data.starred_url;
     following = response.data.following;
-    fs.writeFile('index.html', generateHTML(data), err=>{
+    fs.writeFileSync('index.html', generateHTML(data), err=>{
       if (err) {
         throw err;
       }
     })
-  
+    var html = fs.readFileSync('./index.html', 'utf8');
+    var options = { format: 'Letter' };
 
     pdf.create(html, options).toFile(`./${userName.split(' ').join('')}-profile-${data.color}.pdf`, function(err, res) {
       if (err) return console.log(err);
